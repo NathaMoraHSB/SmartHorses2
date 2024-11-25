@@ -1,0 +1,129 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.board-and-results-row {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+}
+
+.board-card {
+  flex: 0 0 70%; /* El tablero ocupa el 70% del ancho */
+}
+
+.results-container {
+  flex: 0 0 30%; /* Las tarjetas de resultados ocupan el 30% del ancho */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.player-card {
+  width: 100%; /* Ocupa el ancho completo del contenedor */
+}
+
+.settings-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.settings-card {
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+}
+
+.settings-options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap; /* Permite que las opciones se ajusten en una sola fila */
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+}
+.chess-board {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  table-layout: fixed; /* Fija el tamaño de las celdas */
+}
+
+.cell {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  font-size: 1.2em;
+  box-sizing: border-box; /* Incluye el borde en el tamaño total */
+}
+
+.has-points {
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+
+.multiplier {
+  background-color: #92D050
+;
+  font-weight: bold;
+}
+
+/* Estilos específicos para las celdas con los caballos */
+.white-horse-cell {
+  background-color: black;
+  color: white;
+}
+
+.black-horse-cell {
+  background-color: white;
+  color: black;
+}
+
+.highlight {
+  background-color: #D1C4E9; /* Color morado claro */
+  transition: background-color 0.3s ease; /* Suavizar transición */
+}
+
+.highlight:hover {
+  background-color: #9575CD;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+thead {
+  background-color: #f4f4f4;
+}
+
+mat-dialog-content {
+  max-height: 400px;
+  overflow-y: auto;
+}

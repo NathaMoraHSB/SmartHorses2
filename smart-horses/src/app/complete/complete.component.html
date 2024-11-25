@@ -1,0 +1,143 @@
+<div class="game-container">
+
+  <div class="board-and-results-row">
+
+    <mat-card class="board-card">
+      <mat-card-content>
+        <mat-card class="simulation-card">
+          <mat-card-content>
+            <table class="chess-board">
+              <tr *ngFor="let row of grid; let rowIndex = index">
+                <td *ngFor="let cell of row; let colIndex = index"
+                    [ngClass]="{
+              'cell': true,
+              'has-points': cell > 0 && cell <= 10,
+              'multiplier': cell === 20,
+              'white-horse-cell': cell === 11,
+              'black-horse-cell': cell === 12,
+              'highlight': highlightCells.has(rowIndex + ',' + colIndex)
+            }"
+                    (click)="highlightCells.has(rowIndex + ',' + colIndex) ? onCellClick(rowIndex, colIndex) : null">
+                  <ng-container *ngIf="cell === 11">
+                    <span style="font-size: 30px;">♞</span>
+                  </ng-container>
+
+                  <ng-container *ngIf="cell === 12">
+                    <span style="font-size: 35px;">♞</span>
+                  </ng-container>
+
+                  <ng-container *ngIf="cell === 20">x2</ng-container>
+                  <ng-container *ngIf="cell > 0 && cell <= 10">{{ cell }}</ng-container>
+                </td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+
+
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <div class="results-container">
+
+      <mat-card class="player-card">
+        <mat-card-header>
+          <mat-card-title>White Horse</mat-card-title>
+          <mat-card-subtitle>Jugador: IA 1</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Puntos acumulados: {{ whiteHorsePoints }}</p>
+        </mat-card-content>
+      </mat-card>
+
+
+      <mat-card class="player-card">
+        <mat-card-header>
+          <mat-card-title>Black Horse</mat-card-title>
+          <mat-card-subtitle>
+            Jugador: {{ humanVSmachine ? 'Humano' : 'IA 2' }}
+          </mat-card-subtitle>
+
+        </mat-card-header>
+        <mat-card-content>
+          <p>Puntos acumulados: {{ blackHorsePoints }}</p>
+        </mat-card-content>
+      </mat-card>
+
+
+      <mat-card class="player-card" *ngIf="!quedan_puntos">
+        <mat-card-header>
+          <mat-card-title>Juego terminado</mat-card-title>
+          <mat-card-subtitle>El ganador ha sido:</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+
+          <p *ngIf="whiteHorsePoints > blackHorsePoints">Caballo blanco: {{ whiteHorsePoints }}</p>
+          <p *ngIf="blackHorsePoints > whiteHorsePoints">Caballo negro: {{ blackHorsePoints }}</p>
+          <p *ngIf="whiteHorsePoints === blackHorsePoints">Empate, puntos: {{ whiteHorsePoints }}</p>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+  <div class="settings-row">
+    <mat-card class="settings-card">
+      <mat-card-content>
+        <div class="settings-options">
+
+          <mat-radio-group [(ngModel)]="difficultyLevel" class="settings-group" [disabled]="juego_en_curso">
+            <mat-radio-button [value]="2">Principiante</mat-radio-button>
+            <mat-radio-button [value]="4">Intermedio</mat-radio-button>
+            <mat-radio-button [value]="6">Avanzado</mat-radio-button>
+          </mat-radio-group>
+
+
+          <mat-radio-group class="settings-group" [disabled]="juego_en_curso">
+            <mat-radio-button value="false" (change)="humanVSmachine = false">IA vs IA</mat-radio-button>
+            <mat-radio-button value="true" (change)="humanVSmachine = true">IA vs Humano</mat-radio-button>
+            <mat-radio-button value="true" (change)="isExperiment = true">Experimento</mat-radio-button>
+          </mat-radio-group>
+
+
+          <button mat-raised-button color="primary" (click)="startSimulation()" [disabled]="juego_en_curso">Iniciar</button>
+          <button mat-raised-button color="primary" (click)="resetGame()">Reset</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+
+
+<ng-template #experimentResultsTemplate let-data>
+  <h1 mat-dialog-title>Resultados Finales</h1>
+  <div mat-dialog-content>
+    <table>
+      <thead>
+      <tr>
+        <th>IA1 vs IA2</th>
+        <th>Principiante</th>
+        <th>Amateur</th>
+        <th>Experto</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of data.rows">
+        <td>{{ row.ai1 }}</td>
+        <td *ngFor="let value of row.values">{{ value }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <p>Total IA1: {{ data.totals.ia1 }} ({{ data.totals.ia1_percentage }}%)</p>
+    <p>Total IA2: {{ data.totals.ia2 }} ({{ data.totals.ia2_percentage }}%)</p>
+    <p>Empates: {{ data.totals.draws }} ({{ data.totals.draws_percentage }}%)</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cerrar</button>
+  </div>
+</ng-template>
+
+
